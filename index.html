@@ -59,10 +59,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .intro{display:grid;grid-template-columns:1fr 240px;gap:24px;align-items:center}
 .intro .demo{display:flex;flex-direction:column;align-items:center;gap:6px}
 @media (max-width:640px){.intro{grid-template-columns:1fr}.intro .demo{order:-1}}
-.how{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-.how div{border-top:2px solid var(--ink);padding-top:10px;min-width:0}
-.how b{display:block;font-family:var(--f-mono);font-size:13px}
-@media (max-width:640px){.how{grid-template-columns:1fr}}
+.points{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.points li{display:grid;grid-template-columns:28px 1fr;gap:12px;align-items:start}
+.points li i{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:flex;align-items:center;justify-content:center;font-style:normal;font-family:var(--f-mono);font-weight:600;font-size:13px}
 input[type=text]{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;width:100%;min-width:0}
 select{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px;max-width:100%}
 
@@ -135,12 +134,26 @@ input[type=range]{width:100%;accent-color:var(--accent)}
 .plan ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:14px}
 .forecast{display:flex;gap:16px;align-items:center;flex-wrap:wrap;font-family:var(--f-mono)}
 .forecast b{font-size:26px}
+.steps-list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column}
+.steps-list li{display:grid;grid-template-columns:1fr auto;gap:12px;padding-block:10px;border-top:1px solid var(--line);font-size:15px}
+.steps-list li b{font-family:var(--f-mono);white-space:nowrap}
+.gain{background:var(--accent-soft);border-radius:10px;padding:12px 14px;font-size:15px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 details{border-top:1px solid var(--line);padding-top:12px}
 summary{cursor:pointer;font-weight:600}
 details .body{padding-top:12px;font-size:14px;display:flex;flex-direction:column;gap:10px}
 details ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
 textarea{width:100%;min-height:160px;font:13px/1.5 var(--f-mono);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px}
 .note{font-size:13px;color:var(--muted);border-left:3px solid var(--line);padding-left:12px}
+@media print{
+  :root:root:root{--bg:#FFFFFF;--surface:#FFFFFF;--sunk:#E7E9EF;--line:#D5D8E1;--ink:#191C2B;--muted:#5C6178;--accent:#0F6E73;--accent-ink:#FFFFFF;--accent-soft:#DCEEEE;
+    --z1:#2E8B57;--z2:#3A9A8F;--z3:#C99413;--z4:#D9731F;--z5:#C73A3A;--brain-empty:#E3E6EE;--brain-line:#191C2B;color-scheme:light}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{padding-block:0}
+  .nav,.noprint,details,#mailBox,.steps{display:none!important}
+  .panel,.proc,.plan>div,.hero,.kpis{break-inside:avoid}
+  .brainbox{max-width:220px}
+}
 </style>
 
 <div class="wrap">
@@ -153,18 +166,17 @@ textarea{width:100%;min-height:160px;font:13px/1.5 var(--f-mono);color:var(--ink
   <section id="s0" class="stack">
     <div class="intro">
       <div class="stack">
-        <h1>Сколько вашей «оперативной памяти» занято прямо сейчас?</h1>
-        <p>Незакрытые дела, тревоги и недосказанные разговоры работают в фоне, как программы в компьютере. Чем их больше, тем меньше внимания остаётся на созидание. Тест занимает 5–7 минут и показывает, что именно занимает место и с чего начать разгрузку.</p>
+        <h1>Насколько загружен ваш мозг прямо сейчас?</h1>
+        <ul class="points">
+          <li><i>1</i><span>Незакрытые дела, тревоги и недосказанные разговоры продолжают крутиться в голове, даже когда вы заняты другим.</span></li>
+          <li><i>2</i><span>Чем их больше, тем меньше внимания остаётся на главное и на новые идеи.</span></li>
+          <li><i>3</i><span>За 5–7 минут тест покажет, что именно вас грузит и с чего начать разгрузку.</span></li>
+        </ul>
       </div>
       <div class="demo">
         <div class="brainbox" id="demoBrain" style="width:100%"></div>
         <span class="eyebrow">пример результата: 64%</span>
       </div>
-    </div>
-    <div class="how">
-      <div><b>1 · Ёмкость</b><span class="small muted">8 вопросов о том, как устроено ваше внимание</span></div>
-      <div><b>2 · Состояние</b><span class="small muted">сон, энергия, шум за последние дни</span></div>
-      <div><b>3 · Открытые петли</b><span class="small muted">дела и мысли, которые крутятся в голове</span></div>
     </div>
     <div class="panel stack-s">
       <label for="uname" class="small" style="font-weight:600">Как к вам обращаться (необязательно)</label>
@@ -186,7 +198,7 @@ textarea{width:100%;min-height:160px;font:13px/1.5 var(--f-mono);color:var(--ink
   <!-- 2 state -->
   <section id="s2" class="stack" hidden>
     <div class="stack-s"><h2>Состояние: последние три дня</h2>
-    <p class="muted">Недосып и постоянные отвлечения временно уменьшают доступный объём, даже если по характеру вы устойчивы.</p></div>
+    <p class="muted">Недосып и постоянные отвлечения временно уменьшают запас внимания, даже если по характеру вы устойчивы.</p></div>
     <div class="panel" id="stateList"></div>
     <div class="err" id="e2" role="alert"></div>
     <div class="nav"><button class="btn ghost" data-go="1">Назад</button><button class="btn primary" data-go="3">Дальше</button></div>
@@ -198,6 +210,7 @@ textarea{width:100%;min-height:160px;font:13px/1.5 var(--f-mono);color:var(--ink
     <p class="muted">Выпишите от 3 до 10 дел, забот или мыслей, к которым вы возвращались сегодня и вчера. Работа, деньги, семья, здоровье, недосказанный разговор — всё считается. Названия видите только вы.</p></div>
     <div id="loopList" class="stack"></div>
     <div><button class="btn" id="addLoop">+ Добавить ещё</button></div>
+    <div class="panel" id="bgBox"></div>
     <div class="err" id="e3" role="alert"></div>
     <div class="nav"><button class="btn ghost" data-go="2">Назад</button><button class="btn primary" data-go="4">Показать результат</button></div>
   </section>
@@ -228,16 +241,16 @@ const STATE=[
  {k:'noise',w:.2,t:'Как часто вас отвлекают уведомления, звонки и сообщения?',o:[['Постоянно дёргают',0],['Часто',.35],['Иногда',.7],['Почти нет',1]]},
  {k:'pause',w:.2,t:'Было ли за три дня время без задач и экрана: прогулка, спорт, тишина?',o:[['Не было',0],['Урывками',.5],['Каждый день',1]]}
 ];
-const BG={t:'Кроме того, что вы выпишете дальше, сколько ещё мелких незакрытых дел у вас висит?',o:[['Почти нет',0],['До 5',1.5],['От 5 до 15',3],['Больше 15 или не сосчитать',5]]};
+const BG={t:'И последнее: кроме выписанного выше, сколько ещё мелких незакрытых дел у вас висит?',o:[['Почти нет',0],['До 5',1.5],['От 5 до 15',3],['Больше 15 или не сосчитать',5]]};
 const CATS=['Работа и дело','Деньги','Семья и отношения','Здоровье','Быт','Будущее и смыслы'];
 const PLAN=[['Плана нет',1],['Примерно понимаю',.8],['Есть шаг и срок',.6]];
 const CTRL=[['Зависит от меня',1],['Частично',1.1],['Не зависит',1.2]];
 const ZONES=[
- {max:30,c:'--z1',n:'Свободный ресурс',d:'Спокойствие и ясность. Внимание направлено на выбранное дело, мысли легко переключаются. Это лучшее состояние для стратегии и творчества.'},
- {max:50,c:'--z2',n:'Рабочий режим',d:'Собранность и продуктивность. Ресурс используется, но запас есть. Небольшое напряжение мобилизует и ещё не мешает отдыхать.'},
- {max:70,c:'--z3',n:'Заметное напряжение',d:'Внимание делится между задачами. Появляются перепроверки и мелкая раздражительность, ум возвращается к незакрытым делам.'},
- {max:90,c:'--z4',n:'Перегрузка',d:'Раздражение, тревожность, утомляемость. Решения даются тяжелее, мысли ходят по кругу. На творчество места почти не остаётся.'},
- {max:1e9,c:'--z5',n:'Критическая перегрузка',d:'Занято больше, чем доступно сегодня. Отсюда забывчивость, ошибки, резкие реакции или эмоциональная притупленность. Это ответ нервной системы на долгую нагрузку, а не слабость характера.'}
+ {max:30,c:'--z1',n:'Свободный ресурс',g:'Голова ясная: легко держать фокус, придумывать новое и принимать решения без спешки.',d:'Спокойствие и ясность. Внимание направлено на выбранное дело, мысли легко переключаются. Это лучшее состояние для стратегии и творчества.'},
+ {max:50,c:'--z2',n:'Рабочий режим',g:'Появляется запас внимания: дела идут ровно, отдых действительно восстанавливает, остаются силы на свои проекты.',d:'Собранность и продуктивность. Ресурс используется, но запас есть. Небольшое напряжение мобилизует и ещё не мешает отдыхать.'},
+ {max:70,c:'--z3',n:'Заметное напряжение',g:'Станет заметно легче, но напряжение останется. Чтобы выйти в рабочий режим, часть дел придётся закрыть или отпустить совсем.',d:'Внимание делится между задачами. Появляются перепроверки и мелкая раздражительность, ум возвращается к незакрытым делам.'},
+ {max:90,c:'--z4',n:'Перегрузка',g:'Этого недостаточно. Одного наведения порядка мало: нужно сокращать сами обязательства и просить помощи.',d:'Раздражение, тревожность, утомляемость. Решения даются тяжелее, мысли ходят по кругу. На творчество места почти не остаётся.'},
+ {max:1e9,c:'--z5',n:'Критическая перегрузка',g:'Этого недостаточно. Одного наведения порядка мало: нужно сокращать сами обязательства и просить помощи.',d:'Незакрытых дел и мыслей больше, чем вы сейчас можете удержать. Отсюда забывчивость, ошибки, резкие реакции или эмоциональная притупленность. Это ответ нервной системы на долгую нагрузку, а не слабость характера.'}
 ];
 const zoneOf=p=>ZONES.find(z=>p<=z.max);
 const loopLoad=(l,plan)=>((l.w+l.f)/2)*PLAN[plan==null?l.plan:plan][1]*CTRL[l.ctrl][1];
@@ -259,7 +272,7 @@ function compute(S){
   const bySmall=small.reduce((a,l)=>a+loopLoad(l,2),0)+bg*.5;
   const usedAfter=Math.max(0,used-byPlan-bySmall);
   const capAfter=capBase*(.7+.3*Math.max(st,.8));
-  return {t,capBase,mult,cap,sub,stv,st,loops,bg,used,pct,free:Math.max(0,cap-used),byPlan,bySmall,usedAfter,capAfter,pctAfter:usedAfter/capAfter*100};
+  return {t,capBase,mult,cap,sub,stv,st,loops,bg,used,pct,free:Math.max(0,cap-used),byPlan,bySmall,usedAfter,capAfter,pctAfter:usedAfter/capAfter*100,p1:Math.max(0,used-byPlan)/cap*100,p2:usedAfter/cap*100};
 }
 
 /* ---------- state ---------- */
@@ -296,8 +309,7 @@ function renderTrait(){
   <div class="ends scale-ends"><span>совсем не про меня</span><span>полностью про меня</span></div></div>`).join('');
 }
 function renderState(){
-  $('stateList').innerHTML=STATE.map(q=>`<div class="q"><div class="t">${q.t}</div><div class="chips" role="radiogroup">${radios('st_'+q.k,q.o.map(o=>o[0]),S.state[q.k])}</div></div>`).join('')
-   +`<div class="q"><div class="t">${BG.t}</div><div class="chips" role="radiogroup">${radios('bg',BG.o.map(o=>o[0]),S.bg)}</div></div>`;
+  $('stateList').innerHTML=STATE.map(q=>`<div class="q"><div class="t">${q.t}</div><div class="chips" role="radiogroup">${radios('st_'+q.k,q.o.map(o=>o[0]),S.state[q.k])}</div></div>`).join('');
 }
 function renderLoops(){
   $('loopList').innerHTML=S.loops.map((l,i)=>`<div class="loop" data-i="${i}">
@@ -315,6 +327,7 @@ function renderLoops(){
    <div class="field"><label for="lcat${i}">Сфера</label><select id="lcat${i}" data-f="cat">${CATS.map((c,j)=>`<option value="${j}" ${l.cat===j?'selected':''}>${c}</option>`).join('')}</select></div>
   </div>`).join('');
   $('addLoop').hidden=S.loops.length>=10;
+  $('bgBox').innerHTML=`<div class="q"><div class="t">${BG.t}</div><div class="chips" role="radiogroup">${radios('bg',BG.o.map(o=>o[0]),S.bg)}</div></div>`;
 }
 document.addEventListener('input',e=>{
   const el=e.target, n=el.name||'';
@@ -338,16 +351,18 @@ document.addEventListener('click',e=>{
   else if(b.id==='addLoop'){S.loops.push(blankLoop());save();renderLoops();$('ln'+(S.loops.length-1)).focus()}
   else if(b.id==='restart'){S={step:0,name:'',trait:Array(TRAIT.length).fill(0),state:{},bg:-1,loops:[1,2,3,4,5].map(blankLoop)};save();$('uname').value='';go(0,true)}
   else if(b.id==='copyBtn')copySummary();
+  else if(b.id==='pdfBtn')window.print();
   else if(b.id==='mailBtn')sendMail();
 });
 function validate(to){
   if(to>=2&&S.trait.some(x=>!x))return [1,'Ответьте на все 8 вопросов. Без ответа: '+S.trait.map((x,i)=>x?0:i+1).filter(Boolean).join(', ')+'.'];
-  if(to>=3&&(STATE.some(q=>S.state[q.k]==null)||S.bg<0))return [2,'Выберите ответ в каждом из пяти вопросов.'];
+  if(to>=3&&STATE.some(q=>S.state[q.k]==null))return [2,'Выберите ответ в каждом из четырёх вопросов.'];
   if(to>=4){
     const named=S.loops.filter(l=>l.name.trim());
     if(named.length<3)return [3,'Выпишите хотя бы три петли. Если ничего не приходит в голову, вспомните, о чём думали перед сном.'];
     const bad=S.loops.findIndex(l=>l.name.trim()&&(l.plan<0||l.ctrl<0));
     if(bad>=0)return [3,`В петле ${bad+1} отметьте «Следующий шаг» и «Исход».`];
+    if(S.bg<0)return [3,'Ответьте на последний вопрос про мелкие дела.'];
   }
   return null;
 }
@@ -391,14 +406,14 @@ let R=null;
 function renderResult(){
   const r=R=compute(S), z=zoneOf(r.pct), za=zoneOf(r.pctAfter), pct=Math.round(r.pct);
   const over=r.used>r.cap, scale=Math.max(r.cap,r.used);
-  const hello=S.name.trim()?esc(S.name.trim())+', ваша':'Ваша';
+  const title=S.name.trim()?esc(S.name.trim())+', вот насколько загружен ваш мозг':'Вот насколько загружен ваш мозг';
   const tints=['var(--ink)','var(--muted)'];
   const seg=r.loops.map((l,i)=>`<div style="width:${l.load/scale*100}%;background:${tints[i%2]}" title="${esc(l.name)}"></div>`).join('')
     +(r.bg?`<div style="width:${r.bg/scale*100}%;background:var(--accent)" title="Фоновые мелочи"></div>`:'')+(over?'':'<div class="free"></div>');
   const procs=r.loops.map(l=>{const a=loopAdvice(l);return `<div class="proc"><div class="nm">${esc(l.name)}<small>${CATS[l.cat]} · ${PLAN[l.plan][0].toLowerCase()} · ${CTRL[l.ctrl][0].toLowerCase()}</small></div>
-    <div class="bar"><i style="width:${Math.min(100,l.load/6*100)}%"></i></div><div class="num">${f1(l.load)} ед.<br>${Math.round(l.load/r.cap*100)}%</div>
+    <div class="bar"><i style="width:${Math.min(100,l.load/6*100)}%"></i></div><div class="num">${Math.round(l.load/r.cap*100)}%</div>
     <div class="adv"><span class="tag">${a[0]}</span>${a[1]}</div></div>`}).join('')
-    +(r.bg?`<div class="proc"><div class="nm">Фоновые мелочи<small>не вошли в список</small></div><div class="bar"><i style="width:${r.bg/6*100}%;background:var(--accent)"></i></div><div class="num">${f1(r.bg)} ед.<br>${Math.round(r.bg/r.cap*100)}%</div>
+    +(r.bg?`<div class="proc"><div class="nm">Мелкие дела<small>не вошли в список</small></div><div class="bar"><i style="width:${r.bg/6*100}%;background:var(--accent)"></i></div><div class="num">${Math.round(r.bg/r.cap*100)}%</div>
     <div class="adv"><span class="tag">Выгрузить</span>Соберите все мелочи в один список вне головы. Всё, что делается за две минуты, сделайте сразу.</div></div>`:'');
   const prof=Object.keys(SUB).map(k=>`<div>${SUB[k]}</div><div class="bar"><i style="width:${Math.max(3,r.sub[k])}%"></i></div><div class="num">${r.sub[k]}</div>`).join('');
 
@@ -422,42 +437,57 @@ function renderResult(){
   const month=weakTrait.map(k=>TRAIT_ADV[k]);
   if(!month.length)month.push('Базовая ёмкость у вас высокая. Поддерживайте её режимом сна, движением и привычкой сразу записывать новые обязательства.');
   month.push('Правило входа: новое обязательство берёте только после того, как закрыли или отдали одно старое.');
-  month.push(`Пройдите тест повторно через 2 и 4 недели. Цель: загрузка ниже 50%, чтобы минимум половина объёма оставалась под созидание.`);
+  month.push(`Пройдите тест повторно через 2 и 4 недели. Цель: загрузка ниже 50%, чтобы минимум половина внимания оставалась свободной для главного и для творчества.`);
   const li=a=>a.map(x=>`<li>${x}</li>`).join('');
+  const STN={sleep:'недосып',energy:'низкая энергия',noise:'частые отвлечения',pause:'отсутствие пауз'};
+  const lowState=STATE.map(q=>q.k).filter(k=>r.stv[k]<.75).map(k=>STN[k]).join(', ')||'состояние последних дней';
+  const pA=Math.round(r.pctAfter), q1=Math.round(r.p1), q2=Math.round(r.p2), canDrop=pct-pA>=3;
+  const fs=[];
+  if(pct-q1>0)fs.push(['Записать для каждого дела следующий шаг и срок',pct-q1]);
+  if(q1-q2>0)fs.push(['Закрыть или вычеркнуть мелкие дела',q1-q2]);
+  if(q2-pA>0)fs.push(['Наладить режим: '+(lowState==='состояние последних дней'?'сон, паузы, уведомления':lowState.replace('недосып','сон').replace('низкая энергия','движение').replace('частые отвлечения','уведомления').replace('отсутствие пауз','паузы')),q2-pA]);
+  const fsteps=fs.map(x=>`<li><span>${x[0]}</span><b>−${x[1]}%</b></li>`).join('');
+  const capLabel=r.capBase<26.7?'ниже среднего':r.capBase<33.4?'средний':'высокий';
 
   $('result').innerHTML=`
-  <div class="stack-s"><h1>${hello} загрузка RAM</h1></div>
+  <div class="stack-s"><h1>${title}</h1></div>
   <div class="hero">
     <div class="brainbox">${brainSVG(r.pct,z)}</div>
     <div class="stack">
-      <div class="big" style="color:var(${z.c})">${pct}%</div>
+      <div class="stack-s"><div class="big" style="color:var(${z.c})">${pct}%</div>
+      <p class="small muted">вашего внимания занято незакрытыми делами и мыслями</p></div>
       <div><span class="zone" style="color:var(${z.c})"><i></i>${z.n}</span></div>
       <p>${z.d}</p>
-      ${over?`<p class="small"><b>Переполнение на ${f1(r.used-r.cap)} ед.</b> Всё, что не помещается, уходит в «своп»: забытые договорённости, ошибки по невнимательности, плохой сон.</p>`:''}
+      ${over?`<p class="small"><b>Занято больше 100%.</b> Всё, что не помещается, выпадает: забытые договорённости, ошибки по невнимательности, плохой сон.</p>`:''}
     </div>
   </div>
   <div class="kpis">
-    <div class="kpi"><b>${f1(r.cap)} ед.</b><span>доступно сегодня из ${f1(r.capBase)} базовых (шкала 20–40)</span></div>
-    <div class="kpi"><b>${f1(r.used)} ед.</b><span>занято: ${r.loops.length} ${plural(r.loops.length)} и фон</span></div>
-    <div class="kpi"><b>${f1(r.free)} ед.</b><span>свободно для созидания (${Math.max(0,100-pct)}%)</span></div>
+    <div class="kpi"><b>${pct}%</b><span>занято: ${r.loops.length} ${plural(r.loops.length)}${r.bg?' и мелкие дела':''}</span></div>
+    <div class="kpi"><b>${Math.max(0,100-pct)}%</b><span>свободно для главного и для творчества</span></div>
+    <div class="kpi"><b>${Math.round(r.mult*100)}%</b><span>${r.mult<.97?'ваш запас внимания сегодня от обычного: его снижают '+lowState:'ваш запас внимания сегодня: состояние в норме'}</span></div>
   </div>
-  ${r.mult<.97?`<p class="note">Состояние последних дней снимает ${Math.round((1-r.mult)*100)}% объёма: ${f1(r.capBase-r.cap)} ед. временно недоступны из-за сна, энергии, шума или отсутствия пауз.</p>`:''}
 
   <div class="panel stack">
-    <div class="stack-s"><span class="eyebrow">Диспетчер задач</span><h2>Что занимает память</h2></div>
+    <div class="stack-s"><span class="eyebrow">Разбор</span><h2>Что занимает вашу голову</h2>
+    <p class="small muted">Процент показывает, какую долю вашего внимания сейчас держит каждая тема. Сверху самые тяжёлые.</p></div>
     <div class="membar" aria-hidden="true">${seg}</div>
-    <div class="legend"><span><i style="background:var(--ink)"></i>петли</span>${r.bg?'<span><i style="background:var(--accent)"></i>фоновые мелочи</span>':''}<span><i style="background:var(--line)"></i>свободно</span></div>
+    <div class="legend"><span><i style="background:var(--ink)"></i>ваши дела и мысли</span>${r.bg?'<span><i style="background:var(--accent)"></i>мелкие дела</span>':''}<span><i style="background:var(--line)"></i>свободно</span></div>
     <div>${procs}</div>
   </div>
 
   <div class="panel stack">
-    <div class="stack-s"><span class="eyebrow">Прогноз</span><h2>Сколько можно освободить</h2></div>
-    <div class="forecast"><b style="color:var(${z.c})">${pct}%</b><span>→</span><b style="color:var(${za.c})">${Math.round(r.pctAfter)}%</b><span class="zone" style="color:var(${za.c})"><i></i>${za.n}</span></div>
-    <p class="small muted">Если дать каждой петле шаг и срок (−${f1(r.byPlan)} ед.), закрыть мелкое и половину фона (−${f1(r.bySmall)} ед.) и восстановить режим (объём ${f1(r.cap)} → ${f1(r.capAfter)} ед.). Сами задачи при этом ещё не решены: освобождается место, которое занимало их удержание в голове.</p>
+    <div class="stack-s"><span class="eyebrow">Что можно изменить</span><h2>До какого уровня реально разгрузиться</h2></div>
+    ${canDrop?`
+    <div class="forecast"><span>сейчас</span><b style="color:var(${z.c})">${pct}%</b><span>→</span><span>можно</span><b style="color:var(${za.c})">${pA}%</b><span class="zone" style="color:var(${za.c})"><i></i>${za.n}</span></div>
+    <p>Это не требует решить все проблемы. Достаточно навести порядок: сами дела останутся, но перестанут крутиться в голове.</p>
+    <ul class="steps-list">${fsteps}</ul>
+    <div class="gain"><b>Что это даст.</b> ${za.g}</div>
+    <p class="small muted">Цифры — оценка модели, а не обещание. Они показывают, какой шаг даст больше всего.</p>`
+    :`<p>У ваших дел уже есть план, и режим в порядке, поэтому простыми действиями загрузку почти не снизить. Дальше её уменьшает только одно: закрыть часть дел или отказаться от них.</p>`}
   </div>
 
   <div class="stack">
-    <div class="stack-s"><span class="eyebrow">Стратегия высвобождения</span><h2>С чего начать</h2></div>
+    <div class="stack-s"><span class="eyebrow">План разгрузки</span><h2>С чего начать</h2></div>
     <div class="plan">
       <div><h3>Сегодня</h3><ul>${li(today)}</ul></div>
       <div><h3>7 дней</h3><ul>${li(week)}</ul></div>
@@ -467,13 +497,15 @@ function renderResult(){
   </div>
 
   <div class="panel stack">
-    <div class="stack-s"><span class="eyebrow">Профиль ёмкости</span><h2>Из чего складывается ваш объём</h2></div>
+    <div class="stack-s"><span class="eyebrow">Ваши сильные и слабые стороны</span><h2>Как устроено ваше внимание</h2>
+    <p class="small muted">Базовый запас внимания: <b>${capLabel}</b>. Он складывается из пяти навыков ниже.</p></div>
     <div class="prof">${prof}</div>
     <p class="small muted">Шкала 0–100. Чем ниже полоса, тем больше отдачи даст тренировка именно этого навыка.</p>
   </div>
 
-  <div class="stack-s">
-    <div><button class="btn primary" id="copyBtn">Скопировать итог для ментора</button> <span class="small muted" id="copyMsg"></span></div>
+  <div class="stack-s noprint">
+    <div class="actions"><button class="btn primary" id="pdfBtn">Сохранить в PDF</button><button class="btn" id="copyBtn">Скопировать итог для ментора</button> <span class="small muted" id="copyMsg"></span></div>
+    <p class="small muted" id="pdfHint">Откроется окно печати. Выберите «Сохранить как PDF», на айфоне: «Поделиться» → «Сохранить в Файлы». Файл с картинкой и всеми выкладками можно отправить себе на почту.</p>
     <textarea id="copyArea" readonly hidden aria-label="Итог текстом"></textarea>
   </div>
 
@@ -489,7 +521,7 @@ function renderResult(){
     <p><b>Доступно сегодня</b> = базовая ёмкость × (0,7 + 0,3 × состояние). Сон весит 40%, энергия, шум и паузы по 20%.</p>
     <p><b>Нагрузка петли</b> = (тяжесть + частота) ÷ 2 × план × контроль. План: нет 1,0; примерный 0,8; шаг и срок 0,6. Контроль: зависит от меня 1,0; частично 1,1; не зависит 1,2.</p>
     <p><b>Загрузка</b> = (сумма петель + фон) ÷ доступный объём. Зоны: до 30% свободный ресурс, до 50% рабочий режим, до 70% напряжение, до 90% перегрузка, выше — критическая.</p>
-    <p>Единицы условные. Это авторская коучинговая модель, собранная на выводах исследований, а не клинический тест. Коэффициенты подобраны экспертно и уточняются на практике.</p>
+    <p>Внутри расчёта используются условные баллы, а на экране они переведены в проценты от вашего запаса внимания. Это авторская коучинговая модель, собранная на выводах исследований, а не клинический тест. Коэффициенты подобраны экспертно и уточняются на практике.</p>
   </div></details>
   <details><summary>На какие исследования опирается модель</summary><div class="body"><ul>
     <li>Cowan (2001): в фокусе внимания одновременно удерживается около 4 единиц. Объём ограничен у всех, поэтому важна не «сила», а количество того, что в нём лежит.</li>
@@ -506,6 +538,7 @@ function renderResult(){
   </ul></div></details>`;
   r.plan={today,week,month};
   $('mailBox').hidden=!mailEnabled();
+  if(/claude/i.test(location.hostname)){$('pdfBtn').hidden=true;$('pdfHint').hidden=true}
   animateBrains($('result'));
 }
 
@@ -544,14 +577,13 @@ async function sendMail(){
 function plural(n){const a=n%10,b=n%100;return a===1&&b!==11?'петля':(a>=2&&a<=4&&(b<10||b>=20)?'петли':'петель')}
 function summaryText(){
   const r=R,z=zoneOf(r.pct),d=new Date().toLocaleDateString('ru-RU');
-  return [`RAM Mind — результат${S.name.trim()?' · '+S.name.trim():''} · ${d}`,
-   `Загрузка: ${Math.round(r.pct)}% — ${z.n}`,
-   `Объём: ${f1(r.cap)} ед. доступно сегодня (базовый ${f1(r.capBase)} из 40, состояние ×${r.mult.toFixed(2)})`,
-   `Занято: ${f1(r.used)} ед. · Свободно: ${f1(r.free)} ед.`,
-   `Прогноз после разгрузки: ${Math.round(r.pctAfter)}%`,'',
-   'Петли (по убыванию нагрузки):',
-   ...r.loops.map((l,i)=>`${i+1}. ${l.name.trim()} — ${f1(l.load)} ед. [${CATS[l.cat]}; тяжесть ${l.w}, частота ${l.f}; ${PLAN[l.plan][0].toLowerCase()}; ${CTRL[l.ctrl][0].toLowerCase()}] → ${loopAdvice(l)[0]}`),
-   `Фоновые мелочи: ${f1(r.bg)} ед.`,'',
+  return [`Загрузка мозга — результат${S.name.trim()?' · '+S.name.trim():''} · ${d}`,
+   `Загрузка мозга: ${Math.round(r.pct)}% — ${z.n}`,
+   `Свободно: ${Math.max(0,100-Math.round(r.pct))}% · Запас внимания сегодня: ${Math.round(r.mult*100)}% от обычного`,
+   `Можно снизить до: ${Math.round(r.pctAfter)}%`,'',
+   'Что занимает голову (по убыванию):',
+   ...r.loops.map((l,i)=>`${i+1}. ${l.name.trim()} — ${Math.round(l.load/r.cap*100)}% [${CATS[l.cat]}; тяжесть ${l.w}, частота ${l.f}; ${PLAN[l.plan][0].toLowerCase()}; ${CTRL[l.ctrl][0].toLowerCase()}] → ${loopAdvice(l)[0]}`),
+   `Мелкие дела: ${Math.round(r.bg/r.cap*100)}%`,'',
    'Профиль (0–100): '+Object.keys(SUB).map(k=>`${SUB[k]} ${r.sub[k]}`).join(' · '),
    'Состояние: '+STATE.map(q=>q.o[S.state[q.k]][0]).join(' · ')].join('\n');
 }
